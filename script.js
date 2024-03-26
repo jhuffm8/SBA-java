@@ -46,7 +46,7 @@ const CourseInfo = {
       learner_id: 125,
       assignment_id: 2,
       submission: {
-        submitted_at: "2024-04-12",
+        submitted_at: "2023-02-12",
         score: 150
       }
     },
@@ -54,7 +54,7 @@ const CourseInfo = {
       learner_id: 125,
       assignment_id: 3,
       submission: {
-        submitted_at: "2024-01-25",
+        submitted_at: "2023-01-25",
         score: 400
       }
     },
@@ -62,7 +62,7 @@ const CourseInfo = {
       learner_id: 132,
       assignment_id: 1,
       submission: {
-        submitted_at: "2024-01-24",
+        submitted_at: "2023-01-24",
         score: 39
       }
     },
@@ -78,9 +78,51 @@ const CourseInfo = {
   
   function getLearnerData(course, ag, submissions) {
 
-    console.log(`Class: ${course.name}`)
+    console.log(`Class: ${course.name}`);
+     const newData = []
 
-    // need to iterate over assingment group and pull out id and point possible
+    // grab students info
+    for (i in submissions){
+      let student_id = submissions[i]['learner_id'];
+      let exist = false;
+      for (j = 0; j < newData.length; j++) {
+        if (newData[j] == student_id){
+          exist = true;
+
+        }
+      } if(!exist) {
+        newData.push(student_id); // add id to new array
+
+      }
+      console.log(newData);
+     
+
+
+      // let assigment_id = submissions[i]['assignment_id'];
+      // let grade = submissions[i]['submission']['score'];
+
+
+       // grab assignment info
+    // for ( i in ag.assignments) {
+      
+    //   let id = ag.assignments[i]['id'];
+    //   let possible_point = ag.assignments[i]['points_possible'];
+    //   let name = ag.assignments[i]['name'];
+    //   let due_date = ag.assignments[i]['due_at'];
+      
+
+    // }
+
+
+    // console.log(newData);
+
+    }
+
+   
+    
+   
+
+   
   
 
     
@@ -117,14 +159,10 @@ const CourseInfo = {
   
     //return result;
   }
-  
-  // const result = getLearnerData(CourseInfo, AssignmentGroup, LearnerSubmissions);
-  
-  // console.log(result);
-  
-  // console.log(getLearnerData(CourseInfo));
+getLearnerData(CourseInfo,AssignmentGroup,LearnerSubmissions)
+ 
 let date = new Date();
-
+// need to iterate over assingment group and pull out id and point possible
 for ( i in AssignmentGroup.assignments) {
   // console.log(AssignmentGroup.assignments[i])
   let id = AssignmentGroup.assignments[i]['id'];
@@ -132,14 +170,27 @@ for ( i in AssignmentGroup.assignments) {
   let due_date = AssignmentGroup.assignments[i]['due_at'];
   // console.log(due_date);
 
-  // console.log(AssignmentGroup.assignments[i]['points_possible']);
   
+  // console.log(AssignmentGroup.assignments[i]['points_possible']);
 }
-// iterating through learnser sub to get info needed for final results
-for (i in LearnerSubmissions) {
-  let student_id = LearnerSubmissions[i]['learner_id'];
-  // console.log(student_id)
-  let assign_id = LearnerSubmissions[i]['assignment_id'];
-  console.log(assign_id);
 
-}
+
+
+// iterating through learner sub to get info needed for final results
+
+// for (i = 0; i < LearnerSubmissions.length; i++){
+//   let student_id = LearnerSubmissions[i]['learner_id'];
+//   let assigment_id = LearnerSubmissions[i]['assignment_id'];
+ 
+// }
+
+
+
+// let studentmap = LearnerSubmissions.map((i) => ({
+//   id: i.learner_id
+
+// }));
+// console.log(studentmap);
+
+
+
