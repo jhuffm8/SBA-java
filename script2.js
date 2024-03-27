@@ -23,12 +23,12 @@ const CourseInfo = {
         due_at: "2023-02-27",
         points_possible: 150
       },
-    //   {
-    //     id: 3,
-    //     name: "Code the World",
-    //     due_at: "3156-11-15",
-    //     points_possible: 500
-    //   }
+      {
+        id: 3,
+        name: "Code the World",
+        due_at: "3156-11-15",
+        points_possible: 500
+      }
     ]
   };
   
@@ -84,10 +84,12 @@ const CourseInfo = {
      const newData = [];
      let sum = 0
 
-        for(let i = 0; i < ag['assignments'].length; i++){
+    for(let i = 0; i < ag['assignments'].length; i++){ // collecting and summing all possible points
     let currentAssignment = ag['assignments'][i];
+    // let assign_id = currentAssignment['id'];
     sum += currentAssignment['points_possible'];
     }
+    
 
 
 
@@ -163,7 +165,7 @@ console.log(newData)
  
   }
 
-  getLearnerData(CourseInfo,AssignmentGroup,LearnerSubmissions)
+//   getLearnerData(CourseInfo,AssignmentGroup,LearnerSubmissions)
 
 
 //   let key = "name"
@@ -193,6 +195,9 @@ let avg = numArr.reduce((acc , curr,) => acc + curr, 0 );
 let sum = 0
 for(let i = 0; i < AssignmentGroup['assignments'].length; i++){
     let currentAssignment = AssignmentGroup['assignments'][i];
+    let assign_id = currentAssignment['id'];
     sum += currentAssignment['points_possible'];
+    console.log(assign_id)
 }
 // console.log(sum);
+console.log(assign_id)
