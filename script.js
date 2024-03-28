@@ -77,53 +77,78 @@ const LearnerSubmissions = [
     }
   }
 ];
-
+// console.log(LearnerSubmissions[0]['assignment_id'])
 function getLearnerData(course, ag, submissions) {
 
-  console.log(`Class: ${course.name}`);
-   const newData = [];
+  const newData = [];
 
-
-  // grab students info
-  for (i = 0; i< submissions.length; i++){     // iterating through the LearnerSubmissions
-    let student_id = submissions[i]['learner_id'];
-    let exist = false;
+  let dueAssignment = ag['assignments'].filter((item) => {// filter out only due assignments
+    return Date.parse(item.due_at) < Date.now();
     
-    
-    for (j = 0; j < newData.length; j++) { // iterating through the empty array
-        if (newData[j].id == student_id){
-         // console.log("inside if statment", submissions[i]) // keep only once instance of the student, 
-          
-         newData[j] [submissions[i]['assignment_id']]=submissions[i]['submission']['score'];  // if id does exsit add all other properties from LearnerSubm
-          newData[j]['avg'] += submissions[i]['submission']['score']; // sum of student scores
-          exist = true;
+  })
 
+let grade_id = dueAssignment.map((item) => { // map out just the id numbers from array
+  return item.id;
+})
+
+
+
+ let graded = submissions.filter((item) =>  // filter out the assignment sub tht are not due yet
+ { 
+  let result = grade_id.find((id) => { // locate the id from assignments not due and compare to submissions
+  return id == item.assignment_id
+ })
+ if(result){
+  return true;
+ } else {
+  return false;
+ }
+})
+
+ 
+
+for(student of graded){  // grab info from student array
+  let student_id = student['learner_id'];
+  let assignment_id = student['assignment_id']
+  let score = student['submission']['score'];
+  let submitted = Date.parse(student['submission']['submitted_at']);
+  let exist = false;
+
+
+  let found = dueAssignment.find((item) => { // grab items from dueAsignment list
+    // console.log(item.due_at)
+    if(item.id === assignment_id) return true;
+  })
+
+   for(let assign of newData){
+    if(assign.id == student_id){
+
+      assign[found['id']] = score;
+
+      exist = true;
+      
+    }
+     
+    }
+    if(!exist){
+
+      let obj ={
+
+        id: student_id,
+        [found['id']]: score,
       }
 
-          
-    }  if(!exist) {
-      // console.log(submissions[i]['submission']['score'])
-      let obj ={
-          id: submissions[i]['learner_id'],
-          [submissions[i]['assignment_id']]: submissions[i]['submission']['score'],
-          avg: submissions[i]['submission']['score'],
-          
-          // avg: avg_num,
-          
+      newData.push(obj);
 
-      }  
-      // console.log(obj)
+   }
+   console.log(newData)
+// console.log(assignment_id)
+   
+}
 
-      newData.push(obj) // add id to new array
-
-                                              
-  }
 
 
 }
-console.log(newData)
-
-
   // save the assignments as keys in the object
   // assignment score
   // with id as the key
@@ -151,51 +176,4 @@ console.log(newData)
 //   console.log(student_obj);
 
 
-}
-
-getLearnerData(CourseInfo,AssignmentGroup,LearnerSubmissions)
-
-
-//   let key = "name"
-//   let value = "jordan"
-
-//   let obj ={
-//     [key] : value
-//   }
-//   obj[key] = value
-
-
-//   console.log(obj) /// {name:"jordan"}
-let numArr = [];
-for (let i = 0; i < LearnerSubmissions.length; i++){
-  let num = LearnerSubmissions[i]['submission']['score'];
-  numArr.push(num);
-
-}
-let avg = numArr.reduce((acc , curr,) => acc + curr, 0 );
-
-// console.log(avg)
-// let av = ([LearnerSubmissions[i]['submission']['score']].reduce((acc, curr) => (acc += curr), 0));
-// console.log(parseInt(av)
-// console.log(numArr);
-
-
-
-for(i = 0; i < AssignmentGroup['assignments'].length; i++){
-  let sumArr = [];
-  let exist = false;
-  let points = AssignmentGroup['assignments'][i]['points_possible'];
-  console.log(points)
-  for(j = 0; j < sumArr.length; j++){
-      console.log(sumArr[j])
-  if(sumArr[j] != points){
-      sumArr.push(points);
-  }
-  console.log(sumArr);
-  
-}
-console.log(sumArr);
-  
-  
-}
-
+getLearnerData(CourseInfo,AssignmentGroup,LearnerSubmissions);

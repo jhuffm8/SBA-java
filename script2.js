@@ -117,7 +117,7 @@ const CourseInfo = {
         if (item.id === assignmentId) return true
      } )
     
-  
+  console.log(found.due_at)
 
 
 
