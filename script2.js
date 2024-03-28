@@ -26,12 +26,24 @@ const CourseInfo = {
       {
         id: 3,
         name: "Code the World",
-        due_at: "3156-11-15",
+       due_at: "3156-11-15",
         points_possible: 500
       }
     ]
   };
   
+  let id = 1
+//   let found = AssignmentGroup['assignments'].find((item)=>{
+//     if(item.id === id) return true
+//   })
+// let found
+
+//   for (const iterator of AssignmentGroup['assignments']) {
+//     if(iterator.id === id) found = iterator
+//   }
+//   console.log(found.points_possible)
+  
+
 //   const newData = [];
 // 
   // The provided learner submission data.
@@ -73,73 +85,76 @@ const CourseInfo = {
       assignment_id: 2,
       submission: {
         submitted_at: "2023-03-07",
-        score: 125
+        score: 140
       }
     }
   ];
   
+//   1970
+// google way to convert a string date to a time stamp
+// console.log(Date.now())
   function getLearnerData(course, ag, submissions) {
 
     console.log(`Class: ${course.name}`);
      const newData = [];
      let sum = 0
+   
 
-    for(let i = 0; i < ag['assignments'].length; i++){ // collecting and summing all possible points
-    let currentAssignment = ag['assignments'][i];
-    // let assign_id = currentAssignment['id'];
-    sum += currentAssignment['points_possible'];
-    }
-    
+     let openAssignment = submissions.filter((item)=>{
 
-
-
+     })
+       // if item is not due return true 
 
     // grab students info
-    for (i = 0; i< submissions.length; i++){     // iterating through the LearnerSubmissions
-      let student_id = submissions[i]['learner_id'];
+    for (let assignment of openAssignment){     // iterating through the LearnerSubmissions
+      let student_id = assignment['learner_id'];
       let exist = false;
-      
-      
-      for (j = 0; j < newData.length; j++) { // iterating through the empty array
-          if (newData[j].id == student_id){
-           // console.log("inside if statment", submissions[i]) // keep only once instance of the student, 
+      let score = assignment['submission']['score']
+     let assignmentId = assignment['assignment_id']
+     let date_submitted = Date.parse(assignment['submission']['submitted_at'])
+
+     let found = ag['assignments'].find((item) => {
+        if (item.id === assignmentId) return true
+     } )
+    
+  
+
+
+
+      for (let student of newData) { // iterating through the empty array
+          if (student.id == student_id){
+           // console.log("inside if statment", assignment) // keep only once instance of the student, 
             
-           newData[j] [submissions[i]['assignment_id']]=submissions[i]['submission']['score'];  // if id does exsit add all other properties from LearnerSubm
-            newData[j]['avg'] += submissions[i]['submission']['score']; // sum of student scores
+           student[assignment['assignment_id']]=score;  // if id does exsit add all other properties from LearnerSubm
+            // student'avg'] += score; // sum of student scores
             exist = true;
 
         }
-
+      
             
       }  if(!exist) {
-        // console.log(submissions[i]['submission']['score'])
+        // console.log(score)
         let obj ={
-            id: submissions[i]['learner_id'],
-            [submissions[i]['assignment_id']]: submissions[i]['submission']['score'],
-            avg: submissions[i]['submission']['score'],
-            
-            // avg: avg_num,
+            id: assignment['learner_id'],
+            [assignment['assignment_id']]: score,
+            // avg: score,
+        
             
 
         }  
-        // console.log(obj)
-
         newData.push(obj) // add id to new array
 
-                                                
+                                           
     }
-  
  
+
 }
+  
+
 
 console.log(newData)
 
 
-
-    // save the assignments as keys in the object
-    // assignment score
-    // with id as the key
-   
   
 
     // here, we would process this data to achieve the desired result.
@@ -162,42 +177,17 @@ console.log(newData)
 
 //   console.log(student_obj);
 
- 
+
   }
 
-//   getLearnerData(CourseInfo,AssignmentGroup,LearnerSubmissions)
+  getLearnerData(CourseInfo,AssignmentGroup,LearnerSubmissions)
 
 
-//   let key = "name"
-//   let value = "jordan"
+// let numArr = [];
+// for (let i = 0; i < LearnerSubmissions.length; i++){
+//     let num = LearnerSubmissions[i]['submission']['score'];
+//     numArr.push(num);
 
-//   let obj ={
-//     [key] : value
-//   }
-//   obj[key] = value
+// }
+// let avg = numArr.reduce((acc , curr,) => acc + curr, 0 );
 
-
-//   console.log(obj) /// {name:"jordan"}
-let numArr = [];
-for (let i = 0; i < LearnerSubmissions.length; i++){
-    let num = LearnerSubmissions[i]['submission']['score'];
-    numArr.push(num);
-
-}
-let avg = numArr.reduce((acc , curr,) => acc + curr, 0 );
-
-// console.log(avg)
-// let av = ([LearnerSubmissions[i]['submission']['score']].reduce((acc, curr) => (acc += curr), 0));
-// console.log(parseInt(av)
-// console.log(numArr);
-
-// console.log(AssignmentGroup['assignments'][]['points_possible'])
-let sum = 0
-for(let i = 0; i < AssignmentGroup['assignments'].length; i++){
-    let currentAssignment = AssignmentGroup['assignments'][i];
-    let assign_id = currentAssignment['id'];
-    sum += currentAssignment['points_possible'];
-    console.log(assign_id)
-}
-// console.log(sum);
-console.log(assign_id)
