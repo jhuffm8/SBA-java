@@ -77,7 +77,7 @@ const LearnerSubmissions = [
     }
   }
 ];
-// console.log(LearnerSubmissions[0]['assignment_id'])
+
 function getLearnerData(course, ag, submissions) {
 
   const newData = [];
@@ -105,25 +105,25 @@ let grade_id = dueAssignment.map((item) => { // map out just the id numbers from
  }
 })
 
- 
-
 for(student of graded){  // grab info from student array
   let student_id = student['learner_id'];
   let assignment_id = student['assignment_id']
-  let score = student['submission']['score'];
+  
   let submitted = Date.parse(student['submission']['submitted_at']);
   let exist = false;
+  let sum = 0;
 
 
   let found = dueAssignment.find((item) => { // grab items from dueAsignment list
     // console.log(item.due_at)
     if(item.id === assignment_id) return true;
   })
-
+  let due_date = Date.parse(found.due_at); 
+  let score = student['submission']['score']/found.points_possible;
    for(let assign of newData){
     if(assign.id == student_id){
 
-      assign[found['id']] = score;
+      assign[found['id']] = Number(score);
 
       exist = true;
       
@@ -135,28 +135,22 @@ for(student of graded){  // grab info from student array
       let obj ={
 
         id: student_id,
-        [found['id']]: score,
+        [found['id']]: Number(score),
+
       }
 
       newData.push(obj);
 
    }
-   console.log(newData)
+
 // console.log(assignment_id)
    
 }
+console.log(newData)
 
 
 
 }
-  // save the assignments as keys in the object
-  // assignment score
-  // with id as the key
- 
-
-
-  // here, we would process this data to achieve the desired result.
-  //const result = [
   //  {
     //  id: 125,
     //  avg: 0.985, // (47 + 150) / (50 + 150)
@@ -171,9 +165,6 @@ for(student of graded){  // grab info from student array
    // }
   //];
 
-  //return result;
-
-//   console.log(student_obj);
 
 
 getLearnerData(CourseInfo,AssignmentGroup,LearnerSubmissions);
