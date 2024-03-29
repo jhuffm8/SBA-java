@@ -108,24 +108,25 @@ let grade_id = dueAssignment.map((item) => { // map out just the id numbers from
 for(student of graded){  // grab info from student array
   let student_id = student['learner_id'];
   let assignment_id = student['assignment_id']
-  
   let submitted = Date.parse(student['submission']['submitted_at']);
   let exist = false;
-  let sum = 0;
-
+  let sum = graded.map((item) => {
+    return item.submission['score']
+  })
 
   let found = dueAssignment.find((item) => { // grab items from dueAsignment list
     // console.log(item.due_at)
     if(item.id === assignment_id) return true;
   })
+  
   let due_date = Date.parse(found.due_at); 
   let score = student['submission']['score']/found.points_possible;
   let total = score.toFixed(2);
+
    for(let assign of newData){
     if(assign.id == student_id){
 
       assign[found['id']] = Number(total);
-
       exist = true;
       
     }
@@ -137,6 +138,9 @@ for(student of graded){  // grab info from student array
 
         id: student_id,
         [found['id']]: Number(total),
+        avg: (Number(total) + score / found.points_possible)
+        
+        
 
       }
 
