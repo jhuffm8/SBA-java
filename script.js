@@ -120,10 +120,11 @@ for(student of graded){  // grab info from student array
   })
   let due_date = Date.parse(found.due_at); 
   let score = student['submission']['score']/found.points_possible;
+  let total = score.toFixed(2);
    for(let assign of newData){
     if(assign.id == student_id){
 
-      assign[found['id']] = Number(score);
+      assign[found['id']] = Number(total);
 
       exist = true;
       
@@ -135,7 +136,7 @@ for(student of graded){  // grab info from student array
       let obj ={
 
         id: student_id,
-        [found['id']]: Number(score),
+        [found['id']]: Number(total),
 
       }
 
